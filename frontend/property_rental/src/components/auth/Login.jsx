@@ -41,7 +41,7 @@ function Login() {
             className="text-xs text-gray-500 hover:text-gray-900 text-end w-full mt-2 cursor-pointer -mx-60"
             onClick={() => setIsLogin(false)}
           >
-            Don&apos;t have an account yet?
+                 Don't have an account yet?  
           </p>
         </div>
       </>
