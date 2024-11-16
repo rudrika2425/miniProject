@@ -1,15 +1,21 @@
-import { useState } from 'react'
-import './App.css'
-import AddPropertyForm from '../src/AddProperty/property'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Page from './page';  
+import AddProperty from './AddProperty/property'; 
+import UpdateProperty from './updateProperty/update'; 
+import UpdateRoom from './updateProperty/updateRoom'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>  
-    <AddPropertyForm/>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<AddProperty />} />
+        <Route path="/addProperty/property" element={<AddProperty />} />
+        <Route path="/updateProperty" element={<UpdateProperty />} />
+        <Route path="/updateRoom" element={<UpdateRoom />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

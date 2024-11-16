@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import Page from '../page'
+import Nav from '../Navbar/nav'
 const AddPropertyForm = () => {
   const [propertyDetails, setPropertyDetails] = useState({
     residenceName: '',
@@ -8,17 +9,35 @@ const AddPropertyForm = () => {
     propertyType: 'PG',
     bedsVacant: '',
     roomsVacant: '',
-    bedType: 'single',
     adminEmail: '',
     adminPhone: '',
     images: [],
+    facilities:[],
+    availableFlats: {
+      '1BHK': '',
+      '2BHK': '',
+      '3BHK': '',
+      '4BHK': '',
+    },
   });
+   const [facilities,setFacilities]=useState([])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPropertyDetails({
       ...propertyDetails,
       [name]: value,
+    });
+  };
+
+  const handleFlatChange = (e) => {
+    const { name, value } = e.target;
+    setPropertyDetails({
+      ...propertyDetails,
+      availableFlats: {
+        ...propertyDetails.availableFlats,
+        [name]: value,
+      },
     });
   };
 
@@ -48,6 +67,17 @@ const AddPropertyForm = () => {
     }
   };
 
+  const handleCheckBox =(e) =>{
+    const {name,checked}=e.target;
+    setFacilities(prev=>{
+      if(checked){
+        return [...facilities,name];
+      }
+      else{
+        return facilities.filter(facilities => facilities!=name)
+      }
+    })
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Property Details Submitted:', propertyDetails);
@@ -55,7 +85,13 @@ const AddPropertyForm = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <>
+    <Nav/>
+    <div className="flex min-h-screen">
+    <div className="w-1/8 p-4 bg-gray-100 mr-7 ml-7">
+    <Page />
+  </div>
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4 w-3/4">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
         <h2 className="text-2xl font-semibold mb-6 text-center text-gray-700">Add New Property</h2>
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -126,31 +162,115 @@ const AddPropertyForm = () => {
               </div>
               <div>
                 <label htmlFor="bedType" className="block text-sm font-medium text-gray-600">Bed Type</label>
-                <select
-                  id="bedType"
-                  name="bedType"
-                  value={propertyDetails.bedType}
-                  onChange={handleChange}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none"
-                >
-                  <option value="single">Single Bed</option>
-                  <option value="multi">Multi Bed</option>
-                </select>
+                
               </div>
             </>
           ) : (
-            <div>
-              <label htmlFor="roomsVacant" className="block text-sm font-medium text-gray-600">Number of Rooms Vacant</label>
-              <input
-                type="number"
-                id="roomsVacant"
-                name="roomsVacant"
-                value={propertyDetails.roomsVacant}
-                onChange={handleChange}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none"
-              />
-            </div>
+            <>
+              <div>
+                <label htmlFor="1BHK" className="block text-sm font-medium text-gray-600">Available 1BHK Flats</label>
+                <input
+                  type="number"
+                  id="1BHK"
+                  name="1BHK"
+                  value={propertyDetails.availableFlats['1BHK']}
+                  onChange={handleFlatChange}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label htmlFor="2BHK" className="block text-sm font-medium text-gray-600">Available 2BHK Flats</label>
+                <input
+                  type="number"
+                  id="2BHK"
+                  name="2BHK"
+                  value={propertyDetails.availableFlats['2BHK']}
+                  onChange={handleFlatChange}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label htmlFor="3BHK" className="block text-sm font-medium text-gray-600">Available 3BHK Flats</label>
+                <input
+                  type="number"
+                  id="3BHK"
+                  name="3BHK"
+                  value={propertyDetails.availableFlats['3BHK']}
+                  onChange={handleFlatChange}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label htmlFor="4BHK" className="block text-sm font-medium text-gray-600">Available 4BHK Flats</label>
+                <input
+                  type="number"
+                  id="4BHK"
+                  name="4BHK"
+                  value={propertyDetails.availableFlats['4BHK']}
+                  onChange={handleFlatChange}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none"
+                />
+              </div>
+            </>
           )}
+        <div className="flex flex-col space-y-2">
+  <label htmlFor="wifi" className="flex items-center space-x-2">
+    <input
+      type="radio"
+      name="wifi"
+      id="wifi"
+      className="custom-radio"
+      onChange={handleCheckBox}
+    />
+    <span> Wifi </span>
+  </label>
+
+  <label htmlFor="study_table" className="flex items-center space-x-2">
+    <input
+      type="radio"
+      name="study_table"
+      id="study_table"
+      className="custom-radio"
+      onChange={handleCheckBox}
+      
+    />
+    <span> Study table </span>
+  </label>
+
+  <label htmlFor="chair" className="flex items-center space-x-2">
+    <input
+      type="radio"
+      name="chair"
+      id="chair"
+      className="custom-radio"
+      onChange={handleCheckBox}
+    />
+    <span> Chair </span>
+  </label>
+
+  <label htmlFor="mess_facility" className="flex items-center space-x-2">
+    <input
+      type="radio"
+      name="mess_facility"
+      id="mess_facility"
+      className="custom-radio"
+      onChange={handleCheckBox}
+    />
+    <span> Mess facility </span>
+  </label>
+
+  <label htmlFor="laundry_facility" className="flex items-center space-x-2">
+    <input
+      type="radio"
+      name="laundry_facility"
+      id="laundry_facility"
+      className="custom-radio"
+      onChange={handleCheckBox}
+    />
+    <span> Laundry facility </span>
+  </label>
+</div>
+
 
           <div>
             <label className="block text-sm font-medium text-gray-600">Upload Images (Max 5)</label>
@@ -188,41 +308,19 @@ const AddPropertyForm = () => {
             )}
           </div>
 
-          <div>
-            <label htmlFor="adminEmail" className="block text-sm font-medium text-gray-600">Admin Email</label>
-            <input
-              type="email"
-              id="adminEmail"
-              name="adminEmail"
-              value={propertyDetails.adminEmail}
-              onChange={handleChange}
-              required
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none"
-            />
+          <div className="flex justify-center mt-6">
+            <button
+              type="submit"
+              className="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-700 focus:outline-none"
+            >
+              Submit
+            </button>
           </div>
-
-          <div>
-            <label htmlFor="adminPhone" className="block text-sm font-medium text-gray-600">Admin Phone Number</label>
-            <input
-              type="tel"
-              id="adminPhone"
-              name="adminPhone"
-              value={propertyDetails.adminPhone}
-              onChange={handleChange}
-              required
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-2 mt-4 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300"
-          >
-            Add Property
-          </button>
         </form>
       </div>
     </div>
+    </div>
+    </>
   );
 };
 
