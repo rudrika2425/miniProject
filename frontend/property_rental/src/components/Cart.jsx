@@ -87,7 +87,7 @@ const Cart = () => {
         ))}
       </div>
       <div className="mt-4">
-        <Link to="/">
+        <Link to="/home">
         <button className="text-purple-700 hover:underline">Continue Shopping</button>
         </Link>
       </div>
