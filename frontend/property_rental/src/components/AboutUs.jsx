@@ -196,7 +196,7 @@ const AboutUs = () => {
         </div>
       </div>
     </section>
-   <Footer/>
+ 
     </>
     // 
    

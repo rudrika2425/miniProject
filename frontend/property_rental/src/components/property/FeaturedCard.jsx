@@ -8,16 +8,15 @@ const FeaturedCard = () => {
 
   const handleClick = (category) => {
     if (category) {
-      navigate(`/college/${encodeURIComponent(category)}`); // encodeURIComponent ensures safe URL formatting
+      navigate(`/college/${encodeURIComponent(category)}`); 
     }
   };
 
   return (
     <div className="content grid grid-cols-5 gap-6 mt-8 ">
-      {featured.map((item, index) => (
+      {featured.map((item) => (
         <div
-          onClick={() => handleClick(item.name)} // Passing name as category
-          key={index}
+          onClick={() => handleClick(item.name)} 
           className="box bg-white rounded-lg shadow-md p-8 cursor-pointer hover:shadow-lg transition-shadow duration-200 transform hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out"
         >
           <img src={item.cover} alt={item.name} className="w-16 h-16 mx-auto mb-4" />

@@ -1,18 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-const PropertyCard = ({ 
-  id, 
-  image, 
-  title, 
-  bedrooms, 
-  bathrooms, 
-  food, 
-  price, 
-  college 
+const PropertyCard = ({ id, image, title, bedrooms, bathrooms, food, price, college ,category
 }) => {
   return (
-    <div className="border rounded-lg shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out w-80 ml-0 -mx-2 mb-10">
+    <div className="bg-white border rounded-lg shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out w-80 ml-0 -mx-2 mb-10">
       <img 
         src={image} 
         alt={title} 
@@ -26,8 +18,9 @@ const PropertyCard = ({
           <span><i className="fa fa-bath text-purple-700" aria-hidden="true"></i> {bathrooms}</span>
           <span><i className="fa fa-cutlery text-purple-700" aria-hidden="true"></i> {food}</span>
         </div>
-        <p className="text-green-600 font-bold mt-3 text-md">${price}</p>
-        <p className="text-green-600 font-bold mt-3 text-md">{college}</p>
+        <p className="text-gray-600  mt-3 text-md">Rs: {price}</p>
+        <p className="text-gray-600  mt-3 text-md">Near By College: {college}</p>
+        <p className="text-gray-600  mt-3 text-md">Property Type: {category}</p>
         
         <Link to={`/property/${id}`}>
           <button className="mt-3 bg-purple-600 text-white px-3 py-1.5 rounded-full hover:bg-purple-800 transition-all duration-300 ease-in-out text-sm">

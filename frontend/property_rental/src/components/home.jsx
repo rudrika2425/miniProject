@@ -57,7 +57,6 @@ const Home = () => {
         <Recent />
       </main>
 
-      <Footer />
     </>
   );
 };
