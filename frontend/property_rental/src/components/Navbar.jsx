@@ -26,7 +26,7 @@ const Nav = () => {
             }}
             className="text-purple-700 hover:text-purple-900  font-semibold"
           >
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
           </li>
           <li
             style={{
