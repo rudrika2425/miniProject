@@ -13,7 +13,7 @@ const Nav = () => {
     <nav className=" top-0 left-0 right-0 bg-white bg-opacity-50 backdrop-blur-md p-4 shadow-lg z-50">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-3xl font-extrabold text-purple-700">
-          <Link to="/">
+          <Link to="/home">
             Rent
             <span className="text-3xl font-extrabold text-purple-700">Pro</span>
           </Link>
@@ -26,7 +26,7 @@ const Nav = () => {
             }}
             className="text-purple-700 hover:text-purple-900  font-semibold"
           >
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
           </li>
           <li
             style={{
