@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User=require('../models/UserSchema')
 const jwt=require('jsonwebtoken');
+const authToken=require('../middlewares/checkAuthToken')
+const errorHandler=require('../middlewares/errorHandler')
 router.get('/test',async(req,res)=>{
     res.json({
         message:"Auth api is working"
@@ -15,7 +17,7 @@ function response(ok,message,data){
     data,
 }
 }
-router.post('/signup',async (req,res)=>{
+router.post('/signup',async (req,res,next)=>{
 try{
     const {name,email,password}=req.body;
     const user=await User.findOne({email});
@@ -31,11 +33,11 @@ try{
     res.status(201).json(response(true,'User Registered Successfully'))
 }
 catch(err){
-    console.log(err);
+    next();
 }
 })
 
-router.post('/signin',async(req,res)=>{
+router.post('/signin',async(req,res,next)=>{
     try{
     const {email,password}=req.body;
     const exist=await User.findOne({email:email});
@@ -77,5 +79,20 @@ router.get('/logout',async(req,res)=>{
         message:'User logged out successfully'
     })
 })
+
+router.get('/getuser',authToken,async(req,res,next)=>{
+    try{
+const exist=await User.findOne({_id:req.userId});
+if(!exist){
+    return res.status(400).json(response(false,'Invalid credentials'))
+}
+    else{
+        return res.status(200).json(response(true,'User found',exist.name))
+    }
+}catch(err){
+    return res.status(500).json({ ok: false, message: 'Internal server error' });
+}
+})
+router.use(errorHandler);
 
 module.exports=router

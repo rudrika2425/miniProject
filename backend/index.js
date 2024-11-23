@@ -5,10 +5,12 @@ const cors=require("cors");
 const cookieParser = require("cookie-parser");
 const authRoute=require('./routes/Auth');
 const adminRoute=require('./routes/Admin');
-const allowedOrigins = ['http://localhost:3000','http://localhost:5173']
-app.use(express.json());
+const allowedOrigins = ['http://localhost:3000','http://localhost:5174','http://localhost:5173']
+
 require("dotenv").config();
 require("./db");
+app.use(express.json());
+app.use(cookieParser());
 app.use(
     cors({
     origin:function(origin,callback){
@@ -19,10 +21,8 @@ app.use(
             callback(new Error('Not allowed by CORS'))
         }
     },
-        credentials: true,
+    credentials: true,
 }))
-
-
 
 
 app.use('/auth',authRoute)
