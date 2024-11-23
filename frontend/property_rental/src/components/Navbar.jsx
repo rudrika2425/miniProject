@@ -7,8 +7,6 @@ const Nav = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  console.log("Current Path:", currentPath);
-
   return (
     <nav className=" top-0 left-0 right-0 bg-white bg-opacity-50 backdrop-blur-md p-4 shadow-lg z-50">
       <div className="container mx-auto flex justify-between items-center">

@@ -10,7 +10,7 @@ import PropertyDescription from "./components/property/PropertyDescription";
 import CollegeCategory from "./components/CollegeCategory";
 import Layout from "./Layout";
 import Cart from "./components/Cart";
-//import Admin from ".app./AdminPanel";
+// import Admin from "";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -29,7 +29,7 @@ root.render(
         <Route path="/cart" element={<Cart/>} />
         <Route path="/property/:id" element={<PropertyDescription />} />
         <Route path="/college/:collegeName" element={<CollegeCategory />} />
-        {/* <Route path="/admin/*" element={<Admin />} /> */}
+        {/* <Route path="/admin" element={<Admin />} /> */}
         <Route path="*" element={<Navigate to="/home" />} />
 
       </Routes>
