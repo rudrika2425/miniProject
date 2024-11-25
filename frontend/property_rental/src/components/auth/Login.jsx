@@ -59,29 +59,19 @@ const AuthPage = () => {
 
       if (response.ok) {
         toast.success("Login successful");
-
-         if(selectedRole==="owner"){
-          window.location.href = "http://localhost:5173/";
-         }
-         else if(selectedRole==="tenant"){
-          navigate("/home");
-         }
-
-
+        
         // Save user details using AuthContext login function
         localStorage.setItem("userEmail", formData.email);
         setUserEmail(formData.email); 
 
-        // Navigate based on role
-        if (selectedRole === "owner") {
-          navigate("/owner-dashboard");
-        } else if (selectedRole === "tenant") {
+         if(selectedRole==="owner"){
+          window.location.href = `http://localhost:5174?email=${encodeURIComponent(formData.email)}`;
+         }
+         else if(selectedRole==="tenant"){
           navigate("/");
+         }
+        
         } else {
-          navigate("/");
-        }
-
-      } else {
         toast.error(result.message || "Login failed");
       }
     } catch (error) {
