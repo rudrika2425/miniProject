@@ -65,13 +65,14 @@ const AuthPage = () => {
         toast.success(result.message || "Login successful.");
 
         // Save user details using AuthContext
-        localStorage.setItem("userEmail", formData.email);
-        setUserEmail(formData.email);
+        
 
         // Navigate based on designation
         if (formData.designation.toLowerCase() === "owner") {
-          window.location.href='http://localhost:5174/'
+          window.location.href=`http://localhost:5174?email=${formData.email}`;
         } else if (formData.designation.toLowerCase() === "tenant") {
+          localStorage.setItem("userEmail", formData.email);
+          setUserEmail(formData.email);
           navigate("/");
         } else {
           navigate("/login");
