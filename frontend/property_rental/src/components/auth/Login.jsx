@@ -58,7 +58,7 @@ const AuthPage = () => {
       if (result.ok) {
         toast.success("Login successful");
          if(selectedRole==="owner"){
-          window.location.href="http://localhost:5174/"
+          window.location.href = "http://localhost:5173/";
          }
          else if(selectedRole==="tenant"){
           navigate("/home");
