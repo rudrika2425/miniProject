@@ -1,27 +1,32 @@
-// import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import Login from "./components/auth/Login";
 import Home from "./components/Home";
 import Contact from "./components/Contact";
 import AboutUs from "./components/AboutUs";
 import PropertyDescription from "./components/property/PropertyDescription";
-import Login from "./components/auth/Login";
-import Navbar from "./components/Navbar";
-import { PropertyContextProvider } from "../components/context/PropertyContext"; // Import the context provider
-
+import CollegeCategory from "./components/CollegeCategory";
+import Cart from "./components/Cart";
 import "./App.css";
+import Navbar from './components/Navbar'; 
+import Footer from "./components/footer";
 
 function App() {
   return (
-   
-    // <PropertyContextProvider>
-      <Router>
-        <Navbar />
+    <Router>
+      <Navbar/>
         <Routes>
-          
+          <Route path="/" element={<Home />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/property/:id" element={<PropertyDescription />} />
+          <Route path="/college/:collegeName" element={<CollegeCategory />} />
+          <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
-      </Router>
-    // </PropertyContextProvider>
-    
+      <Footer/>
+    </Router>
   );
 }
 
