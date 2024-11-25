@@ -62,31 +62,23 @@ const AuthPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        toast.success("Login successful");
+        toast.success(result.message || "Login successful.");
 
-         if(selectedRole==="owner"){
-          window.location.href = "http://localhost:5173/";
-         }
-         else if(selectedRole==="tenant"){
-          navigate("/home");
-         }
+        // Save user details using AuthContext
+        
 
-
-        // Save user details using AuthContext login function
-        localStorage.setItem("userEmail", formData.email);
-        setUserEmail(formData.email);
-
-        // Navigate based on role
-        if (selectedRole === "owner") {
-          navigate("/owner-dashboard");
-        } else if (selectedRole === "tenant") {
+        // Navigate based on designation
+        if (formData.designation.toLowerCase() === "owner") {
+          window.location.href=`http://localhost:5174?email=${formData.email}`;
+        } else if (formData.designation.toLowerCase() === "tenant") {
+          localStorage.setItem("userEmail", formData.email);
+          setUserEmail(formData.email);
           navigate("/");
         } else {
-          navigate("/");
+          navigate("/login");
         }
-
       } else {
-        toast.error(result.message || "Login failed");
+        toast.error(result.message || "Login failed.");
       }
     } catch (error) {
       toast.error("An error occurred during login. Please try again.");
