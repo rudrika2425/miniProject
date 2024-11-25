@@ -1,22 +1,25 @@
-import React, { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+
 const AuthPage = () => {
+  const { setUserEmail } = useContext(AuthContext); // Access the login method from AuthContext
   const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [selectedRole,setSelectedRole]=useState('')
- const navigate=useNavigate();
+  const [selectedRole, setSelectedRole] = useState("");
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
@@ -30,8 +33,8 @@ const AuthPage = () => {
 
       const result = await response.json();
 
-      if (result.ok) {
-        toast.success(result.message);
+      if (response.ok) {
+        toast.success("Signup successful. Please log in.");
         setIsLogin(true); // Switch to login after successful signup
       } else {
         toast.error(result.message || "Signup failed");
@@ -41,7 +44,6 @@ const AuthPage = () => {
     }
   };
 
-  
   const handleSignin = async (e) => {
     e.preventDefault();
     try {
@@ -55,14 +57,21 @@ const AuthPage = () => {
 
       const result = await response.json();
 
-      if (result.ok) {
+      if (response.ok) {
         toast.success("Login successful");
-         if(selectedRole==="owner"){
-          window.location.href="http://localhost:5174/"
-         }
-         else if(selectedRole==="tenant"){
-          navigate("/home");
-         }
+
+        // Save user details using AuthContext login function
+        localStorage.setItem("userEmail", formData.email);
+        setUserEmail(formData.email); 
+
+        // Navigate based on role
+        if (selectedRole === "owner") {
+          navigate("/owner-dashboard");
+        } else if (selectedRole === "tenant") {
+          navigate("/");
+        } else {
+          navigate("/");
+        }
       } else {
         toast.error(result.message || "Login failed");
       }
@@ -71,7 +80,7 @@ const AuthPage = () => {
     }
   };
 
-  const RadioButtons = ({ selectedRole, setSelectedRole }) => (
+  const RadioButtons = () => (
     <div className="mt-4">
       <label className="block text-gray-700 text-sm font-bold mb-2">
         Select Role
@@ -103,16 +112,14 @@ const AuthPage = () => {
     </div>
   );
 
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <ToastContainer/>
+      <ToastContainer />
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">
           {isLogin ? "Login" : "Sign Up"}
         </h2>
-        <form onSubmit={isLogin? handleSignin: handleSignup} className="space-y-4">
-          {/* Name Input (only for signup) */}
+        <form onSubmit={isLogin ? handleSignin : handleSignup} className="space-y-4">
           {!isLogin && (
             <div>
               <label className="block text-sm font-medium text-gray-600">
@@ -143,7 +150,6 @@ const AuthPage = () => {
               required
             />
           </div>
-       
           <div>
             <label className="block text-sm font-medium text-gray-600">
               Password
@@ -158,13 +164,7 @@ const AuthPage = () => {
               required
             />
           </div>
-          {isLogin && (
-            <RadioButtons
-              selectedRole={selectedRole}
-              setSelectedRole={setSelectedRole}
-            />
-          )}
-          
+          {isLogin && <RadioButtons />}
           <button
             type="submit"
             className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-300"
@@ -172,11 +172,8 @@ const AuthPage = () => {
             {isLogin ? "Login" : "Sign Up"}
           </button>
         </form>
-        {/* Toggle Login/Signup */}
         <p className="mt-4 text-center text-sm text-gray-600">
-          {isLogin
-            ? "Don't have an account? "
-            : "Already have an account? "}
+          {isLogin ? "Don't have an account? " : "Already have an account? "}
           <span
             onClick={() => setIsLogin(!isLogin)}
             className="text-purple-600 font-medium cursor-pointer hover:underline"
