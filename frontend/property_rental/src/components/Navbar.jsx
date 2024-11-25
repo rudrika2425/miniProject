@@ -15,7 +15,8 @@ const Nav = () => {
     setUserEmail(null); // Update context state
     navigate("/login"); // Redirect to login page
   };
-
+  
+  
   return (
     <nav className="top-0 left-0 right-0 bg-white bg-opacity-50 backdrop-blur-md p-4 shadow-lg z-50">
       <div className="container mx-auto flex justify-between items-center">
