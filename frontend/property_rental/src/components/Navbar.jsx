@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -6,14 +6,16 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 const Nav = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const [loggedIn,setLoggedin]=useState(false);
+ const [name,setName]=useState('');
 
-  console.log("Current Path:", currentPath);
+   
 
   return (
     <nav className=" top-0 left-0 right-0 bg-white bg-opacity-50 backdrop-blur-md p-4 shadow-lg z-50">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-3xl font-extrabold text-purple-700">
-          <Link to="/">
+          <Link to="/home">
             Rent
             <span className="text-3xl font-extrabold text-purple-700">Pro</span>
           </Link>
@@ -51,11 +53,19 @@ const Nav = () => {
             </Link>
           </li>
         </ul>
+        {
+          loggedIn ?
+          <Link href='/' className='linkstylenone'>
+          <BiUserCircle className='theme_icon1'/>
+          </Link>:
         <Link to="/login">
-          <button className="bg-white text-purple-700 px-5 py-2  border-2 border-purple-700 rounded-full font-semibold hover:text-purple-900 border-purple-900  transform hover:scale-105 ml-96">
+         <button className="bg-white text-purple-700 px-5 py-2  border-2 border-purple-700 rounded-full font-semibold hover:text-purple-900 border-purple-900  transform hover:scale-105 ml-96">
             Login
-          </button>
-        </Link>
+         </button>
+       </Link>
+
+        }
+       
         <Link to="/cart">
   <button className="bg-white text-purple-700 px-5 py-2 rounded-full font-semibold  transition-all duration-300 -ml-2 hover:text-purple-900  transform hover:scale-105">
     <FontAwesomeIcon icon={faShoppingCart} size="2x" />
