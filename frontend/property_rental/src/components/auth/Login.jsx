@@ -5,14 +5,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
-  const { setUserEmail } = useContext(AuthContext); // Access the login method from AuthContext
-  const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
+  const { setUserEmail } = useContext(AuthContext);
+  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    designation: "",
   });
-  const [selectedRole, setSelectedRole] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -34,10 +34,10 @@ const AuthPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        toast.success("Signup successful. Please log in.");
-        setIsLogin(true); // Switch to login after successful signup
+        toast.success(result.message || "Signup successful. Please log in.");
+        setIsLogin(true);
       } else {
-        toast.error(result.message || "Signup failed");
+        toast.error(result.message || "Signup failed.");
       }
     } catch (error) {
       toast.error("An error occurred during signup. Please try again.");
@@ -52,74 +52,37 @@ const AuthPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          designation: formData.designation,
+        }),
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        toast.success("Login successful");
+        toast.success(result.message || "Login successful.");
 
-         if(selectedRole==="owner"){
-          window.location.href = "http://localhost:5173/";
-         }
-         else if(selectedRole==="tenant"){
-          navigate("/home");
-         }
-
-
-        // Save user details using AuthContext login function
+        // Save user details using AuthContext
         localStorage.setItem("userEmail", formData.email);
-        setUserEmail(formData.email); 
+        setUserEmail(formData.email);
 
-        // Navigate based on role
-        if (selectedRole === "owner") {
-          navigate("/owner-dashboard");
-        } else if (selectedRole === "tenant") {
+        // Navigate based on designation
+        if (formData.designation.toLowerCase() === "owner") {
+          window.location.href='http://localhost:5174/'
+        } else if (formData.designation.toLowerCase() === "tenant") {
           navigate("/");
         } else {
-          navigate("/");
+          navigate("/login");
         }
-
       } else {
-        toast.error(result.message || "Login failed");
+        toast.error(result.message || "Login failed.");
       }
     } catch (error) {
       toast.error("An error occurred during login. Please try again.");
     }
   };
-
-  const RadioButtons = () => (
-    <div className="mt-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2">
-        Select Role
-      </label>
-      <div className="flex items-center gap-4">
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            name="role"
-            value="owner"
-            className="form-radio text-purple-700"
-            checked={selectedRole === "owner"}
-            onChange={(e) => setSelectedRole(e.target.value)}
-          />
-          <span className="ml-2 text-gray-700">Owner</span>
-        </label>
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            name="role"
-            value="tenant"
-            className="form-radio text-purple-700"
-            checked={selectedRole === "tenant"}
-            onChange={(e) => setSelectedRole(e.target.value)}
-          />
-          <span className="ml-2 text-gray-700">Tenant</span>
-        </label>
-      </div>
-    </div>
-  );
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -131,9 +94,7 @@ const AuthPage = () => {
         <form onSubmit={isLogin ? handleSignin : handleSignup} className="space-y-4">
           {!isLogin && (
             <div>
-              <label className="block text-sm font-medium text-gray-600">
-                Name
-              </label>
+              <label className="block text-sm font-medium text-gray-600">Name</label>
               <input
                 type="text"
                 name="name"
@@ -146,9 +107,7 @@ const AuthPage = () => {
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-600">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-gray-600">Email</label>
             <input
               type="email"
               name="email"
@@ -160,9 +119,7 @@ const AuthPage = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-gray-600">Password</label>
             <input
               type="password"
               name="password"
@@ -173,7 +130,20 @@ const AuthPage = () => {
               required
             />
           </div>
-          {isLogin && <RadioButtons />}
+          <div>
+            <label className="block text-sm font-medium text-gray-600">Designation</label>
+            <select
+              name="designation"
+              value={formData.designation}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300"
+              required
+            >
+              <option value="">Select your role</option>
+              <option value="tenant">Tenant</option>
+              <option value="owner">owner</option>
+            </select>
+          </div>
           <button
             type="submit"
             className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-300"

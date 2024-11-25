@@ -11,8 +11,6 @@ const Home = () => {
       
       <Banner />
       <div className="relative">
-        
-
         {/* Hero Section */}
         <header className="absolute inset-0 flex justify-center items-center z-10 -mt-56">
           <div
