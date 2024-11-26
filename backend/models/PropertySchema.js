@@ -3,6 +3,10 @@ const mongoose=require('mongoose');
 
 
 const propertySchema= new mongoose.Schema({
+    email:{
+        type:String,
+        required:true,
+    },
     name:{
         type:String,
         require:true
@@ -16,34 +20,37 @@ const propertySchema= new mongoose.Schema({
         required: true,
 
     },
-    propertyType:{
-        type:String,
-        required:true,
+    propertyType: { 
+        type: String,
+         enum: ['flats', 'PG'],
+          required: true
+     },
+    beds: {
+        type: Number,
+        required: function () { return this.propertyType === 'PG'; }
+     },
+    bhk1: {
+         type: Number,
+          default: 0 
     },
-    bhk1:{
-        type:Number,
+    bhk2: {
+         type: Number,
+         default: 0 
+        },
+    bhk3: {
+         type: Number,
+          default: 0 
     },
-    bhk2:{
-        type:Number,
+    bhk4: { 
+        type: Number,
+         default: 0 
     },
-    bhk3:{
-        type:Number,
-    },
-    bhk4:{
-        type:Number,
-    },
-    beds:{
-        type:Number,
-        required:true
-    },
-    facility:{
-        type:[],
-    },
-    image:{
-        type:[],
-        required:true
-    }
-
+    facility: {
+        type: [String],
+        default: [] },
+    images: { 
+        type: [String],
+       default: [] },
 })
 const Property=mongoose.model('Property',propertySchema);
 module.exports=Property;

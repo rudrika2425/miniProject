@@ -67,17 +67,19 @@ const AddPropertyForm = () => {
     }
   };
 
-  const handleCheckBox =(e) =>{
-    const {name,checked}=e.target;
-    setFacilities(prev=>{
-      if(checked){
-        return [...facilities,name];
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setPropertyDetails((prev) => {
+      if (checked) {
+        return { ...prev, facilities: [...prev.facilities, name] };
+      } else {
+        return {
+          ...prev,
+          facilities: prev.facilities.filter((facility) => facility !== name),
+        };
       }
-      else{
-        return facilities.filter(facilities => facilities!=name)
-      }
-    })
-  }
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Property Details Submitted:', propertyDetails);
@@ -214,61 +216,51 @@ const AddPropertyForm = () => {
             </>
           )}
         <div className="flex flex-col space-y-2">
-  <label htmlFor="wifi" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="wifi"
-      id="wifi"
-      className="custom-radio"
-      onChange={handleCheckBox}
-    />
-    <span> Wifi </span>
-  </label>
-
-  <label htmlFor="study_table" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="study_table"
-      id="study_table"
-      className="custom-radio"
-      onChange={handleCheckBox}
-      
-    />
-    <span> Study table </span>
-  </label>
-
-  <label htmlFor="chair" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="chair"
-      id="chair"
-      className="custom-radio"
-      onChange={handleCheckBox}
-    />
-    <span> Chair </span>
-  </label>
-
-  <label htmlFor="mess_facility" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="mess_facility"
-      id="mess_facility"
-      className="custom-radio"
-      onChange={handleCheckBox}
-    />
-    <span> Mess facility </span>
-  </label>
-
-  <label htmlFor="laundry_facility" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="laundry_facility"
-      id="laundry_facility"
-      className="custom-radio"
-      onChange={handleCheckBox}
-    />
-    <span> Laundry facility </span>
-  </label>
+        <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Wifi"
+                    checked={propertyDetails.facilities.includes('Wifi')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Wifi</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Study Table"
+                    checked={propertyDetails.facilities.includes('Study Table')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Study Table</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Chair"
+                    checked={propertyDetails.facilities.includes('Chair')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Chair</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Mess Facility"
+                    checked={propertyDetails.facilities.includes('Mess Facility')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Mess Facility</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Laundry Facility"
+                    checked={propertyDetails.facilities.includes('Laundry Facility')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Laundry Facility</span>
+                </label>
 </div>
 
 
