@@ -3,7 +3,6 @@ import React from 'react'
 function Detail() {
   return (
     <div>
-         <Nav/>
          <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4 w-3/4">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
         <h2 className="text-2xl font-semibold mb-6 text-center text-gray-700">Fill the details</h2>

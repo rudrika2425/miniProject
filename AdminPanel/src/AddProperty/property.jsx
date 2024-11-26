@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Page from '../page'
 import Nav from '../Navbar/nav'
-import { useSearchParams } from 'react-router-dom';
+
 
 
 const AddPropertyForm = () => {
 
-  const [searchParams] = useSearchParams();
-  const userEmail = searchParams.get('email');
+  
+  const userEmail = localStorage.getItem('userEmail');
 
   const [propertyDetails, setPropertyDetails] = useState({
     residenceName: '',
@@ -144,7 +144,7 @@ const AddPropertyForm = () => {
 
   return (
     <>
-    <Nav/>
+  
     <div className="flex min-h-screen">
     <div className="w-1/8 p-4 bg-gray-100 mr-7 ml-7">
     <Page />

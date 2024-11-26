@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 const Page = () => {
   const navigate = useNavigate();
 
+  const email = localStorage.getItem('userEmail');
+
   const handleAdd = () => {
-    navigate('/AddProperty/property');
+    navigate(`/AddProperty/property?email=${email}`);
   };
 
   const handleUpdate = () => {
-    navigate('/updateProperty');
+    navigate(`/updateProperty?email=${email}`);
   };
 
   return (

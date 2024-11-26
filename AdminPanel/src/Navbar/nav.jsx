@@ -3,14 +3,16 @@ import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from "../Context";
-import { useSearchParams } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
 
 const Nav = () => {
 
-  const [searchParams] = useSearchParams();
-  const userEmail = searchParams.get('email');
+  // const [searchParams] = useSearchParams();
+  // const userEmail = searchParams.get('email');
 
+  // localStorage.setItem('userEmail', userEmail);
 
+  const email = localStorage.getItem('userEmail');
 
   const handleLogout = () => {
     // Clear local storage and session storage
@@ -35,7 +37,7 @@ const Nav = () => {
         </h1>
 
         <div className="flex items-center space-x-4">
-          <span className="text-purple-700 font-semibold">{userEmail}</span>
+          <span className="text-purple-700 font-semibold">{email}</span>
           <button
             onClick={handleLogout}
             className="bg-white text-purple-700 px-5 py-2 border-2 border-purple-700 rounded-full font-semibold hover:text-purple-900 transform hover:scale-105 transition-transform"
