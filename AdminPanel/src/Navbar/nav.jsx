@@ -8,12 +8,21 @@ import { useSearchParams } from 'react-router-dom';
 const Nav = () => {
 
   const [searchParams] = useSearchParams();
-  const email = searchParams.get('email');
+  const userEmail = searchParams.get('email');
 
-  const location = useLocation();
-  const currentPath = location.pathname;
 
-  console.log(email);
+
+  const handleLogout = () => {
+    // Clear local storage and session storage
+    localStorage.clear();
+    sessionStorage.clear();
+  
+    // Redirect to the provided URL
+    window.location.replace("http://localhost:5173/login");
+  };
+  
+
+  //console.log(email);
 
   return (
     <nav className=" top-0 left-0 right-0 bg-white bg-opacity-50 backdrop-blur-md p-4 shadow-lg z-50">
@@ -25,7 +34,7 @@ const Nav = () => {
           </Link>
         </h1>
 
-        {/* <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4">
           <span className="text-purple-700 font-semibold">{userEmail}</span>
           <button
             onClick={handleLogout}
@@ -33,7 +42,7 @@ const Nav = () => {
           >
             Logout
           </button>
-        </div> */}
+        </div>
 
 
       </div>

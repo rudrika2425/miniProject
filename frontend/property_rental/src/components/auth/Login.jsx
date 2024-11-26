@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +14,24 @@ const AuthPage = () => {
     designation: "",
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Push initial state to disable back navigation
+    window.history.pushState(null, null, window.location.href);
+
+    const handlePopState = () => {
+      // Push state again to prevent back navigation
+      window.history.pushState(null, null, window.location.href);
+    };
+
+    // Add listener for popstate event
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      // Cleanup event listener on component unmount
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,6 +95,7 @@ const AuthPage = () => {
         } else {
           navigate("/login");
         }
+
       } else {
         toast.error(result.message || "Login failed.");
       }
