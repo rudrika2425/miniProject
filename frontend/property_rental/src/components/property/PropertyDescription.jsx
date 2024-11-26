@@ -102,17 +102,12 @@ const ProductDescription = () => {
             <p className="text-gray-600 mt-2">
               Inspections are actions are still happening
             </p>
-            <p className="text-gray-600">Wednesday, 30 Aug - 10:30 am</p>
+            <p className="text-gray-600">The inspection for the scheduled property is currently in progress. It is taking place on Wednesday, 30th August at 10:30 AM, where key aspects like property condition, safety, and regulatory compliance are being assessed. Relevant stakeholders are involved to ensure thorough evaluation. </p>
             
           </div>
 
-          {/* Map */}
-          <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-            <h3 className="font-semibold text-gray-800">Location</h3>
-            <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-              <p>Map Placeholder</p>
-            </div>
-          </div>
+          
+          
         </div>
       </div>
 
