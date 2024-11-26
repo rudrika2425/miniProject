@@ -33,6 +33,10 @@ router.post('/addproperty', async (req, res) => {
             return res.status(400).json(response(false, '`beds` is required for PG properties'));
         }
 
+        if (!Array.isArray(images) || images.some(img => typeof img !== 'string')) {
+            return res.status(400).json(response(false, 'Invalid format for images'));
+        }
+
         const propertyData = {
             email,
             name,
@@ -70,4 +74,6 @@ router.post('/addproperty', async (req, res) => {
         console.log(err);
     }
  })
+
+
 module.exports=router;

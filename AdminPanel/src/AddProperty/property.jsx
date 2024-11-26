@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import Page from '../page'
 import Nav from '../Navbar/nav'
+import { useSearchParams } from 'react-router-dom';
+
+
 const AddPropertyForm = () => {
+
+  const [searchParams] = useSearchParams();
+  const userEmail = searchParams.get('email');
+
   const [propertyDetails, setPropertyDetails] = useState({
     residenceName: '',
     address: '',
@@ -9,7 +16,7 @@ const AddPropertyForm = () => {
     propertyType: 'PG',
     bedsVacant: '',
     roomsVacant: '',
-    adminEmail: '',
+    adminEmail: userEmail,
     adminPhone: '',
     images: [],
     facilities:[],
@@ -80,11 +87,60 @@ const AddPropertyForm = () => {
       }
     });
   };
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Property Details Submitted:', propertyDetails);
-    // Handle form submission (e.g., send data to backend or update state)
+  
+    const payload = {
+      email: propertyDetails.adminEmail,
+      name: propertyDetails.residenceName,
+      address: propertyDetails.address,
+      college: propertyDetails.nearbyColleges,
+      propertyType: propertyDetails.propertyType,
+      facility: propertyDetails.facilities,
+      beds: propertyDetails.propertyType === 'PG' ? propertyDetails.bedsVacant : undefined,
+      bhk1: propertyDetails.propertyType === 'Flat' ? propertyDetails.availableFlats['1BHK'] : undefined,
+      bhk2: propertyDetails.propertyType === 'Flat' ? propertyDetails.availableFlats['2BHK'] : undefined,
+      bhk3: propertyDetails.propertyType === 'Flat' ? propertyDetails.availableFlats['3BHK'] : undefined,
+      bhk4: propertyDetails.propertyType === 'Flat' ? propertyDetails.availableFlats['4BHK'] : undefined,
+      images: propertyDetails.images.filter((image) => typeof image === 'string' && image.trim() !== ''),
+    };
+  
+    try {
+      const response = await fetch('http://localhost:3000/property/addproperty', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        alert('Property added successfully!');
+        console.log('Property Details Submitted:', result);
+  
+        // Clear the form state
+        setPropertyDetails({
+          adminEmail: '',
+          residenceName: '',
+          address: '',
+          nearbyColleges: '',
+          propertyType: '',
+          facilities: [],
+          bedsVacant: '',
+          availableFlats: { '1BHK': '', '2BHK': '', '3BHK': '', '4BHK': '' },
+          images: [],
+        });
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Error submitting property details:', error);
+      alert('An error occurred while submitting the form.');
+    }
   };
+  
 
   return (
     <>
