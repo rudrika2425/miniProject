@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from "../Context";
+// import { useSearchParams } from 'react-router-dom';
 
 const Nav = () => {
-  const location = useLocation();
-  const currentPath = location.pathname;
 
-  console.log("Current Path:", currentPath);
+  // const [searchParams] = useSearchParams();
+  // const userEmail = searchParams.get('email');
+
+  // localStorage.setItem('userEmail', userEmail);
+
+  const email = localStorage.getItem('userEmail');
+
+  const handleLogout = () => {
+    // Clear local storage and session storage
+    localStorage.clear();
+    sessionStorage.clear();
+  
+    // Redirect to the provided URL
+    window.location.replace("http://localhost:5173/login");
+  };
+  
+
+  //console.log(email);
 
   return (
     <nav className=" top-0 left-0 right-0 bg-white bg-opacity-50 backdrop-blur-md p-4 shadow-lg z-50">
@@ -18,20 +35,17 @@ const Nav = () => {
             <span className="text-3xl font-extrabold text-purple-700">Pro</span>
           </Link>
         </h1>
-        <ul className="flex space-x-6 text-lg ml-96">
-          
-           
-        </ul>
-        <Link to="/login">
-          <button className="bg-white text-purple-700 px-5 py-2  border-2 border-purple-700 rounded-full font-semibold hover:text-purple-900 border-purple-900  transform hover:scale-105 ml-96">
-            Login
+
+        <div className="flex items-center space-x-4">
+          <span className="text-purple-700 font-semibold">{email}</span>
+          <button
+            onClick={handleLogout}
+            className="bg-white text-purple-700 px-5 py-2 border-2 border-purple-700 rounded-full font-semibold hover:text-purple-900 transform hover:scale-105 transition-transform"
+          >
+            Logout
           </button>
-        </Link>
-        <Link to="">
-  <button className="bg-white text-purple-700 px-5 py-2 rounded-full font-semibold  transition-all duration-300 -ml-2 hover:text-purple-900  transform hover:scale-105">
-    <FontAwesomeIcon icon={faUser } size="2x" />
-  </button>
-</Link>
+        </div>
+
 
       </div>
     </nav>

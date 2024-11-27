@@ -43,7 +43,6 @@ const Cart = () => {
 
   return (
     <>
-    <Nav/>
     <div className="flex min-h-screen">
       {/* Left side: Page component occupies 1/4 of the page */}
       <div className="w-1/8 p-4 bg-gray-100 mr-7 ml-7">

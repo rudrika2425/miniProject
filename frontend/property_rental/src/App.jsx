@@ -7,13 +7,14 @@ import AboutUs from "./components/AboutUs";
 import PropertyDescription from "./components/property/PropertyDescription";
 import CollegeCategory from "./components/CollegeCategory";
 import Cart from "./components/Cart";
-import "./App.css";
 import Navbar from './components/Navbar'; 
 import Footer from "./components/footer";
+import { AuthProvider } from "./components/AuthContext";
 
 function App() {
   return (
     <Router>
+      <AuthProvider>
       <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -26,6 +27,7 @@ function App() {
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       <Footer/>
+      </AuthProvider>
     </Router>
   );
 }

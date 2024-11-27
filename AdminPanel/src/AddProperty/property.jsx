@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import Page from '../page'
 import Nav from '../Navbar/nav'
+
+
+
 const AddPropertyForm = () => {
+
+  
+  const userEmail = localStorage.getItem('userEmail');
+
   const [propertyDetails, setPropertyDetails] = useState({
     residenceName: '',
     address: '',
@@ -9,7 +16,7 @@ const AddPropertyForm = () => {
     propertyType: 'PG',
     bedsVacant: '',
     roomsVacant: '',
-    adminEmail: '',
+    adminEmail: userEmail,
     adminPhone: '',
     images: [],
     facilities:[],
@@ -67,26 +74,77 @@ const AddPropertyForm = () => {
     }
   };
 
-  const handleCheckBox =(e) =>{
-    const {name,checked}=e.target;
-    setFacilities(prev=>{
-      if(checked){
-        return [...facilities,name];
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setPropertyDetails((prev) => {
+      if (checked) {
+        return { ...prev, facilities: [...prev.facilities, name] };
+      } else {
+        return {
+          ...prev,
+          facilities: prev.facilities.filter((facility) => facility !== name),
+        };
       }
-      else{
-        return facilities.filter(facilities => facilities!=name)
-      }
-    })
-  }
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Property Details Submitted:', propertyDetails);
-    // Handle form submission (e.g., send data to backend or update state)
+    });
   };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const payload = {
+      email: propertyDetails.adminEmail,
+      name: propertyDetails.residenceName,
+      address: propertyDetails.address,
+      college: propertyDetails.nearbyColleges,
+      propertyType: propertyDetails.propertyType,
+      facility: propertyDetails.facilities,
+      beds: propertyDetails.propertyType === 'PG' ? propertyDetails.bedsVacant : undefined,
+      bhk1: propertyDetails.propertyType === 'Flat' ? propertyDetails.availableFlats['1BHK'] : undefined,
+      bhk2: propertyDetails.propertyType === 'Flat' ? propertyDetails.availableFlats['2BHK'] : undefined,
+      bhk3: propertyDetails.propertyType === 'Flat' ? propertyDetails.availableFlats['3BHK'] : undefined,
+      bhk4: propertyDetails.propertyType === 'Flat' ? propertyDetails.availableFlats['4BHK'] : undefined,
+      images: propertyDetails.images.filter((image) => typeof image === 'string' && image.trim() !== ''),
+    };
+  
+    try {
+      const response = await fetch('http://localhost:3000/property/addproperty', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        alert('Property added successfully!');
+        console.log('Property Details Submitted:', result);
+  
+        // Clear the form state
+        setPropertyDetails({
+          adminEmail: '',
+          residenceName: '',
+          address: '',
+          nearbyColleges: '',
+          propertyType: '',
+          facilities: [],
+          bedsVacant: '',
+          availableFlats: { '1BHK': '', '2BHK': '', '3BHK': '', '4BHK': '' },
+          images: [],
+        });
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Error submitting property details:', error);
+      alert('An error occurred while submitting the form.');
+    }
+  };
+  
 
   return (
     <>
-    <Nav/>
+  
     <div className="flex min-h-screen">
     <div className="w-1/8 p-4 bg-gray-100 mr-7 ml-7">
     <Page />
@@ -214,61 +272,51 @@ const AddPropertyForm = () => {
             </>
           )}
         <div className="flex flex-col space-y-2">
-  <label htmlFor="wifi" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="wifi"
-      id="wifi"
-      className="custom-radio"
-      onChange={handleCheckBox}
-    />
-    <span> Wifi </span>
-  </label>
-
-  <label htmlFor="study_table" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="study_table"
-      id="study_table"
-      className="custom-radio"
-      onChange={handleCheckBox}
-      
-    />
-    <span> Study table </span>
-  </label>
-
-  <label htmlFor="chair" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="chair"
-      id="chair"
-      className="custom-radio"
-      onChange={handleCheckBox}
-    />
-    <span> Chair </span>
-  </label>
-
-  <label htmlFor="mess_facility" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="mess_facility"
-      id="mess_facility"
-      className="custom-radio"
-      onChange={handleCheckBox}
-    />
-    <span> Mess facility </span>
-  </label>
-
-  <label htmlFor="laundry_facility" className="flex items-center space-x-2">
-    <input
-      type="radio"
-      name="laundry_facility"
-      id="laundry_facility"
-      className="custom-radio"
-      onChange={handleCheckBox}
-    />
-    <span> Laundry facility </span>
-  </label>
+        <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Wifi"
+                    checked={propertyDetails.facilities.includes('Wifi')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Wifi</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Study Table"
+                    checked={propertyDetails.facilities.includes('Study Table')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Study Table</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Chair"
+                    checked={propertyDetails.facilities.includes('Chair')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Chair</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Mess Facility"
+                    checked={propertyDetails.facilities.includes('Mess Facility')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Mess Facility</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="Laundry Facility"
+                    checked={propertyDetails.facilities.includes('Laundry Facility')}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>Laundry Facility</span>
+                </label>
 </div>
 
 
