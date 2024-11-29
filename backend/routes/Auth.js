@@ -50,7 +50,7 @@ router.post('/signup', async (req, res, next) => {
 });
 
 
-router.post('/signin', async (req, res, next) => {
+router.post('/signin', async (raeq, res, next) => {
     try {
         const { email, password, designation } = req.body;
 
