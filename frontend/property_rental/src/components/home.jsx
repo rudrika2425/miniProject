@@ -4,8 +4,14 @@ import Footer from './footer';
 import Banner from './Banner';
 import Featured from './property/Featured'; // Ensure the path to Featured is correct
 import Recent from './Recent';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const move=()=>{
+    navigate('/login');
+  }
   return (
     <>
       
@@ -23,7 +29,7 @@ const Home = () => {
             <p className="text-lg font-medium mb-8 shadow-lg">
               Explore the best properties available in the market
             </p>
-            <button className="bg-green-500 px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-all duration-300 shadow-lg">
+            <button onClick={move} className="bg-green-500 px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-all duration-300 shadow-lg">
               Get Started
             </button>
           </div>
@@ -40,7 +46,7 @@ const Home = () => {
       </div>
 
       <main className="container mx-auto my-16">
-        {/* Featured Properties */}
+        
         <Featured />
 
         <div className="flex justify-center">
