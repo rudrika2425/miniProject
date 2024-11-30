@@ -24,7 +24,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/property/:id" element={<PropertyDescription />} />
           <Route path="/college/:collegeName" element={<CollegeCategory />} />
-          <Route path="*" element={<Navigate to="/home" />} />
+          <Route path="*" element={<Home />}  />
         </Routes>
       <Footer/>
       </AuthProvider>

@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Navbar from './Navbar';
 import Footer from './footer';
 import Banner from './Banner';
 import Featured from './property/Featured'; // Ensure the path to Featured is correct
 import Recent from './Recent';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
+
+
 
 const Home = () => {
   const navigate = useNavigate();
+  const { userEmail } = useContext(AuthContext);
+  const isLoggedIn = !!userEmail;
 
   const move=()=>{
+    if(!isLoggedIn){
     navigate('/login');
+    }
+  else{
+    navigate('/');
+  }
   }
   return (
     <>
